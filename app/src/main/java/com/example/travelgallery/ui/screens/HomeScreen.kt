@@ -23,26 +23,26 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
+    ) {
+        Text(text = "マップ配置")
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.End,
         ) {
-            Text(text = "マップ配置")
-            Column(
-                modifier = modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.End,
+            FloatingActionButton(
+                modifier = modifier.padding(10.dp),
+                shape = CircleShape,
+                containerColor = Color.White,
+                contentColor = Color.Black,
+                onClick = { /*TODO*/ },
             ) {
-                FloatingActionButton(
-                    modifier = modifier.padding(10.dp),
-                    shape = CircleShape,
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Place,
-                        contentDescription = "Place"
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Default.Place,
+                    contentDescription = "Place",
+                )
             }
         }
+    }
 }
 
 @Preview
