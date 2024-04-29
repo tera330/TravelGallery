@@ -48,7 +48,7 @@ fun BottomNavigationBar(
 
 @Preview
 @Composable
-fun PreviewBottomNavigationBar() {
+private fun PreviewBottomNavigationBar() {
     val navController = rememberNavController()
     BottomNavigationBar(
         navController = navController,
