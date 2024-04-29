@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TravelGallery</string>
+    <string name="home">ホーム</string>
+    <string name="all_gallery">すべての写真</string>
 </resources>
