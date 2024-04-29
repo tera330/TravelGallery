@@ -2,7 +2,6 @@ package com.example.travelgallery.ui.data
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,13 +13,14 @@ sealed class BottomNavigationBarItem(
     val icon: ImageVector,
 ) {
     object Home : BottomNavigationBarItem(
-        route = "home",
+        route = "Home",
         resourceId = R.string.home,
-        icon = Icons.Default.Map
+        icon = Icons.Default.Map,
     )
-    object AllGallery: BottomNavigationBarItem(
-        route = "allGallery",
+
+    object AllGallery : BottomNavigationBarItem(
+        route = "AllGallery",
         resourceId = R.string.all_gallery,
-        icon = Icons.Default.PhotoLibrary
+        icon = Icons.Default.PhotoLibrary,
     )
 }
