@@ -20,9 +20,8 @@ import com.example.travelgallery.ui.data.bottomNavItems
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    tabItems: List<BottomNavigationBarItem>
+    tabItems: List<BottomNavigationBarItem>,
 ) {
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -31,16 +30,21 @@ fun BottomNavigationBar(
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 onClick = {
-                    navController.navigate(screen.route)
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                    }
                 },
                 icon = {
-                       Icon(
-                           imageVector = screen.icon,
-                           contentDescription = stringResource(id = screen.resourceId))
-                       },
+                    Icon(
+                        imageVector = screen.icon,
+                        contentDescription = stringResource(id = screen.resourceId),
+                    )
+                },
                 label = {
                     Text(stringResource(id = screen.resourceId))
-                }
+                },
             )
         }
     }
@@ -52,6 +56,6 @@ private fun PreviewBottomNavigationBar() {
     val navController = rememberNavController()
     BottomNavigationBar(
         navController = navController,
-        tabItems = bottomNavItems
+        tabItems = bottomNavItems,
     )
 }
