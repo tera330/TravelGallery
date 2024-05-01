@@ -11,30 +11,27 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelgallery.ui.composables.Map
+import com.example.travelgallery.ui.uistate.MapUiState
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    // todo viewmodelで状態として扱う
-    var isAddMode by remember { mutableStateOf(true) }
-    var isDeleteMode by remember { mutableStateOf(true) }
-
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    mapUiState: MapUiState,
+    enableAddMarkerMode: (Boolean) -> Unit,
+) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         Map(
-            isAddMode = isAddMode,
-            isDeleteMode = isDeleteMode,
+            isAddMode = mapUiState.isAddMode,
+            enableAddMarkerMode = enableAddMarkerMode,
         )
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -45,7 +42,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 shape = CircleShape,
                 containerColor = Color.White,
                 contentColor = Color.Black,
-                onClick = { /*TODO*/ },
+                onClick = {
+                    enableAddMarkerMode(true)
+                },
             ) {
                 Icon(
                     imageVector = Icons.Default.Place,
@@ -59,5 +58,5 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun PreviewHomeScreen() {
-    HomeScreen()
+    // HomeScreen()
 }

@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.gms.play.services.maps)
     implementation(libs.android.maps.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

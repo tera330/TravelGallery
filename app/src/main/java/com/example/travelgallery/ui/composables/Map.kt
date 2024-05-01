@@ -18,7 +18,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun Map(
     isAddMode: Boolean,
-    isDeleteMode: Boolean,
+    enableAddMarkerMode: (Boolean) -> Unit,
 ) {
     val tokyo = LatLng(35.6894, 139.6917)
     val cameraPositionState =
@@ -33,6 +33,7 @@ fun Map(
         onMapClick = { latLng ->
             if (isAddMode) {
                 markers = markers + latLng
+                enableAddMarkerMode(false)
             } else {
             }
         },
@@ -40,13 +41,10 @@ fun Map(
         markers.forEach { marker ->
             Marker(
                 state = MarkerState(position = marker),
-                title = "",
-                snippet = "",
+                title = "aa",
+                snippet = "aa",
                 draggable = true,
                 onClick = {
-                    if (isDeleteMode) {
-                        markers = markers.filter { it != marker }
-                    }
                     false
                 },
             )
@@ -59,6 +57,6 @@ fun Map(
 fun PreviewMap() {
     Map(
         isAddMode = true,
-        isDeleteMode = true,
+        enableAddMarkerMode = { },
     )
 }
