@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
@@ -14,6 +15,7 @@ import com.example.travelgallery.ui.MainHost
 import com.example.travelgallery.ui.theme.TravelGalleryTheme
 import com.example.travelgallery.ui.viewmodel.MapViewModel
 
+@ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,9 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         mapUiState = mapUiState,
                         enableAddMarkerMode = { boolean -> mapViewModel.enableAddMarkerMode(boolean) },
+                        inputTitleStr = { str -> mapViewModel.updateInputTitleStr(str) },
+                        inputSnippetStr = { str -> mapViewModel.updateInputSnippetStr(str) },
+                        updateBottomSheetState = { boolean -> mapViewModel.updateBottomSheetState(boolean) }
                     )
                 }
             }

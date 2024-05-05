@@ -14,7 +14,31 @@ class MapViewModel : ViewModel() {
     fun enableAddMarkerMode(flag: Boolean) {
         _uiState.update {
             it.copy(
-                isAddMode = flag,
+                isPinAddMode = flag,
+            )
+        }
+    }
+
+    fun updateInputTitleStr(title: String) {
+        _uiState.update {
+            it.copy(
+                inputTitleStr = title
+            )
+        }
+    }
+
+    fun updateInputSnippetStr(snippet: String) {
+        _uiState.update {
+            it.copy(
+                inputTitleStr = snippet
+            )
+        }
+    }
+
+    fun updateBottomSheetState(flag: Boolean) {
+        _uiState.update {
+            it.copy(
+                bottomSheetState = flag
             )
         }
     }

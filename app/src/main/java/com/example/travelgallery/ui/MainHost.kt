@@ -2,6 +2,7 @@ package com.example.travelgallery.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,11 +21,15 @@ import com.example.travelgallery.ui.screens.HomeScreen
 import com.example.travelgallery.ui.uistate.MapUiState
 import com.example.travelgallery.ui.viewmodel.MapViewModel
 
+@ExperimentalMaterial3Api
 @Composable
 fun MainHost(
     navController: NavHostController,
     mapUiState: MapUiState,
     enableAddMarkerMode: (Boolean) -> Unit,
+    inputTitleStr: (String) -> Unit,
+    inputSnippetStr: (String) -> Unit,
+    updateBottomSheetState: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -49,6 +54,10 @@ fun MainHost(
                 HomeScreen(
                     mapUiState = mapUiState,
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
+                    inputTitleStr = inputTitleStr,
+                    inputSnippetStr = inputSnippetStr,
+                    updateBottomSheetState = updateBottomSheetState
+
                 )
             }
             composable(route = Screen.AllGallery.name) {
@@ -58,6 +67,7 @@ fun MainHost(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 private fun PreviewMainHost(modifier: Modifier = Modifier) {
@@ -69,6 +79,9 @@ private fun PreviewMainHost(modifier: Modifier = Modifier) {
         navController = navController,
         mapUiState = mapUiState,
         enableAddMarkerMode = {},
+        inputTitleStr = {},
+        inputSnippetStr = {},
+        updateBottomSheetState = {},
         modifier = modifier,
     )
 }

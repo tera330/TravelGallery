@@ -26,13 +26,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.travelgallery.ui.uistate.MapUiState
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
 fun PinSettingBottomSheet(
     modifier: Modifier = Modifier,
-    isBottomSheetVisible: Boolean
+    isBottomSheetVisible: Boolean,
+    mapUiState: MapUiState,
+    inputTitleStr: (String) -> Unit,
+    inputSnippetStr: (String) -> Unit
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     if (isBottomSheetVisible) {
@@ -50,16 +54,16 @@ fun PinSettingBottomSheet(
                         modifier = modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        value = title,
-                        onValueChange = { title = it },
+                        value = mapUiState.inputTitleStr,
+                        onValueChange = { inputTitleStr(it) },
                         label = { Text("旅行先・地名") }
                     )
                     OutlinedTextField(
                         modifier = modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        value = snippet,
-                        onValueChange = { snippet = it },
+                        value = mapUiState.inputSnippetStr,
+                        onValueChange = { inputSnippetStr(it) },
                         label = { Text("メモ") }
                     )
                 }
@@ -76,5 +80,10 @@ fun PinSettingBottomSheet(
 @Composable
 @ExperimentalMaterial3Api
 fun PreviewPinSettingBottomSheet() {
-    PinSettingBottomSheet(isBottomSheetVisible = true)
+    PinSettingBottomSheet(
+        isBottomSheetVisible = true,
+        mapUiState = MapUiState(),
+        inputTitleStr = {},
+        inputSnippetStr = {},
+        )
 }

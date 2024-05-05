@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -19,10 +20,14 @@ import androidx.compose.ui.unit.dp
 import com.example.travelgallery.ui.composables.Map
 import com.example.travelgallery.ui.uistate.MapUiState
 
+@ExperimentalMaterial3Api
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     mapUiState: MapUiState,
+    inputTitleStr: (String) -> Unit,
+    inputSnippetStr: (String) -> Unit,
+    updateBottomSheetState: (Boolean) -> Unit,
     enableAddMarkerMode: (Boolean) -> Unit,
 ) {
     Box(
@@ -30,8 +35,12 @@ fun HomeScreen(
         contentAlignment = Alignment.Center,
     ) {
         Map(
-            isAddMode = mapUiState.isAddMode,
+            isAddMode = mapUiState.isPinAddMode,
+            mapUiState = mapUiState,
             enableAddMarkerMode = enableAddMarkerMode,
+            inputTitleStr = inputTitleStr,
+            inputSnippetStr = inputSnippetStr,
+            updateBottomSheetState = updateBottomSheetState
         )
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -55,8 +64,15 @@ fun HomeScreen(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 private fun PreviewHomeScreen() {
-    // HomeScreen()
+    HomeScreen(
+        mapUiState = MapUiState(),
+        inputTitleStr = {},
+        inputSnippetStr = {},
+        updateBottomSheetState = {},
+        enableAddMarkerMode = {}
+    )
 }
