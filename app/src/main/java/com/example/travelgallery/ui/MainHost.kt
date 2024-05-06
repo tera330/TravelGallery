@@ -19,6 +19,7 @@ import com.example.travelgallery.ui.data.bottomNavItems
 import com.example.travelgallery.ui.screens.AllGalleryScreen
 import com.example.travelgallery.ui.screens.HomeScreen
 import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataState
 import com.example.travelgallery.ui.viewmodel.MapViewModel
 
 @ExperimentalMaterial3Api
@@ -26,6 +27,7 @@ import com.example.travelgallery.ui.viewmodel.MapViewModel
 fun MainHost(
     navController: NavHostController,
     mapUiState: MapUiState,
+    pinDataState: PinDataState,
     enableAddMarkerMode: (Boolean) -> Unit,
     inputTitleStr: (String) -> Unit,
     inputSnippetStr: (String) -> Unit,
@@ -53,6 +55,7 @@ fun MainHost(
             composable(route = Screen.Home.name) {
                 HomeScreen(
                     mapUiState = mapUiState,
+                    pinDataState = pinDataState,
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
                     inputTitleStr = inputTitleStr,
                     inputSnippetStr = inputSnippetStr,
@@ -71,12 +74,11 @@ fun MainHost(
 @Composable
 private fun PreviewMainHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val mapViewModel: MapViewModel = viewModel()
-    val mapUiState = mapViewModel.uiState.collectAsState().value
 
     MainHost(
         navController = navController,
-        mapUiState = mapUiState,
+        mapUiState = MapUiState(),
+        pinDataState = PinDataState(),
         enableAddMarkerMode = {},
         inputTitleStr = {},
         inputSnippetStr = {},

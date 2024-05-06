@@ -20,13 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataState
 
 @ExperimentalMaterial3Api
 @Composable
 fun PinSettingBottomSheet(
     modifier: Modifier = Modifier,
     isBottomSheetVisible: Boolean,
-    mapUiState: MapUiState,
+    pinDataState: PinDataState,
     inputTitleStr: (String) -> Unit,
     inputSnippetStr: (String) -> Unit,
 ) {
@@ -41,14 +42,12 @@ fun PinSettingBottomSheet(
                             .heightIn(min = 200.dp)
                             .fillMaxSize(),
                 ) {
-                    var title by remember { mutableStateOf("") }
-                    var snippet by remember { mutableStateOf("") }
                     OutlinedTextField(
                         modifier =
                             modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                        value = mapUiState.inputTitleStr,
+                        value = pinDataState.inputTitleStr,
                         onValueChange = { inputTitleStr(it) },
                         label = { Text("旅行先・地名") },
                     )
@@ -57,7 +56,7 @@ fun PinSettingBottomSheet(
                             modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                        value = mapUiState.inputSnippetStr,
+                        value = pinDataState.inputSnippetStr,
                         onValueChange = { inputSnippetStr(it) },
                         label = { Text("メモ") },
                     )
@@ -77,7 +76,7 @@ fun PinSettingBottomSheet(
 fun PreviewPinSettingBottomSheet() {
     PinSettingBottomSheet(
         isBottomSheetVisible = true,
-        mapUiState = MapUiState(),
+        pinDataState = PinDataState(),
         inputTitleStr = {},
         inputSnippetStr = {},
     )

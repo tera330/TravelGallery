@@ -1,28 +1,28 @@
 package com.example.travelgallery.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class MapViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(MapUiState())
-    val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
+class PinDataViewModel: ViewModel() {
+    private val _uiState = MutableStateFlow(PinDataState())
+    val uiState: StateFlow<PinDataState> = _uiState.asStateFlow()
 
-    fun enableAddMarkerMode(flag: Boolean) {
+    fun updateInputTitleStr(title: String) {
         _uiState.update {
             it.copy(
-                isPinAddMode = flag,
+                inputTitleStr = title,
             )
         }
     }
 
-    fun updateBottomSheetState(flag: Boolean) {
+    fun updateInputSnippetStr(snippet: String) {
         _uiState.update {
             it.copy(
-                bottomSheetState = flag,
+                inputSnippetStr = snippet,
             )
         }
     }

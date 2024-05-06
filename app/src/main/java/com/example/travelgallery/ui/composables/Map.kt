@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -27,6 +28,7 @@ fun Map(
     isAddMode: Boolean,
     enableAddMarkerMode: (Boolean) -> Unit,
     mapUiState: MapUiState,
+    pinDataState: PinDataState,
     inputTitleStr: (String) -> Unit,
     inputSnippetStr: (String) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
@@ -71,9 +73,9 @@ fun Map(
     if (mapUiState.bottomSheetState) {
         PinSettingBottomSheet(
             isBottomSheetVisible = true,
-            mapUiState = mapUiState,
-            inputSnippetStr = inputTitleStr,
-            inputTitleStr = inputSnippetStr,
+            pinDataState = pinDataState,
+            inputSnippetStr = inputSnippetStr,
+            inputTitleStr = inputTitleStr,
         )
     }
 }
@@ -86,6 +88,7 @@ fun PreviewMap() {
         isAddMode = true,
         enableAddMarkerMode = {},
         mapUiState = MapUiState(),
+        pinDataState = PinDataState(),
         inputTitleStr = {},
         inputSnippetStr = {},
         updateBottomSheetState = {},

@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.travelgallery.ui.MainHost
 import com.example.travelgallery.ui.theme.TravelGalleryTheme
 import com.example.travelgallery.ui.viewmodel.MapViewModel
+import com.example.travelgallery.ui.viewmodel.PinDataViewModel
 
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val mapViewModel: MapViewModel by viewModels()
+            val pinDataViewModel: PinDataViewModel by viewModels()
             val mapUiState = mapViewModel.uiState.collectAsState().value
+            val pinDataState = pinDataViewModel.uiState.collectAsState().value
+
 
             TravelGalleryTheme {
                 // A surface container using the 'background' color from the theme
@@ -33,9 +37,10 @@ class MainActivity : ComponentActivity() {
                     MainHost(
                         navController = navController,
                         mapUiState = mapUiState,
+                        pinDataState = pinDataState,
                         enableAddMarkerMode = { boolean -> mapViewModel.enableAddMarkerMode(boolean) },
-                        inputTitleStr = { str -> mapViewModel.updateInputTitleStr(str) },
-                        inputSnippetStr = { str -> mapViewModel.updateInputSnippetStr(str) },
+                        inputTitleStr = { str -> pinDataViewModel.updateInputTitleStr(str) },
+                        inputSnippetStr = { str -> pinDataViewModel.updateInputSnippetStr(str) },
                         updateBottomSheetState = { boolean -> mapViewModel.updateBottomSheetState(boolean) },
                     )
                 }
