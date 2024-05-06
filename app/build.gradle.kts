@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.gms.play.services.maps)
     implementation(libs.android.maps.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

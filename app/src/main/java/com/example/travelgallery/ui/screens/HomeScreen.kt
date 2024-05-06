@@ -40,7 +40,7 @@ fun HomeScreen(
             enableAddMarkerMode = enableAddMarkerMode,
             inputTitleStr = inputTitleStr,
             inputSnippetStr = inputSnippetStr,
-            updateBottomSheetState = updateBottomSheetState
+            updateBottomSheetState = updateBottomSheetState,
         )
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -73,6 +73,6 @@ private fun PreviewHomeScreen() {
         inputTitleStr = {},
         inputSnippetStr = {},
         updateBottomSheetState = {},
-        enableAddMarkerMode = {}
+        enableAddMarkerMode = {},
     )
 }

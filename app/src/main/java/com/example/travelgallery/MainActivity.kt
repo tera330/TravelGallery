@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                         enableAddMarkerMode = { boolean -> mapViewModel.enableAddMarkerMode(boolean) },
                         inputTitleStr = { str -> mapViewModel.updateInputTitleStr(str) },
                         inputSnippetStr = { str -> mapViewModel.updateInputSnippetStr(str) },
-                        updateBottomSheetState = { boolean -> mapViewModel.updateBottomSheetState(boolean) }
+                        updateBottomSheetState = { boolean -> mapViewModel.updateBottomSheetState(boolean) },
                     )
                 }
             }

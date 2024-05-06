@@ -56,8 +56,7 @@ fun MainHost(
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
                     inputTitleStr = inputTitleStr,
                     inputSnippetStr = inputSnippetStr,
-                    updateBottomSheetState = updateBottomSheetState
-
+                    updateBottomSheetState = updateBottomSheetState,
                 )
             }
             composable(route = Screen.AllGallery.name) {

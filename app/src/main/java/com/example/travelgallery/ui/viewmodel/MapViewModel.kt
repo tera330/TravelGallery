@@ -22,7 +22,7 @@ class MapViewModel : ViewModel() {
     fun updateInputTitleStr(title: String) {
         _uiState.update {
             it.copy(
-                inputTitleStr = title
+                inputTitleStr = title,
             )
         }
     }
@@ -30,7 +30,7 @@ class MapViewModel : ViewModel() {
     fun updateInputSnippetStr(snippet: String) {
         _uiState.update {
             it.copy(
-                inputTitleStr = snippet
+                inputTitleStr = snippet,
             )
         }
     }
@@ -38,7 +38,7 @@ class MapViewModel : ViewModel() {
     fun updateBottomSheetState(flag: Boolean) {
         _uiState.update {
             it.copy(
-                bottomSheetState = flag
+                bottomSheetState = flag,
             )
         }
     }
