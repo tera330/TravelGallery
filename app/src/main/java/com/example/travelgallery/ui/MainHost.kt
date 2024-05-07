@@ -2,12 +2,11 @@ package com.example.travelgallery.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,13 +17,19 @@ import com.example.travelgallery.ui.data.bottomNavItems
 import com.example.travelgallery.ui.screens.AllGalleryScreen
 import com.example.travelgallery.ui.screens.HomeScreen
 import com.example.travelgallery.ui.uistate.MapUiState
-import com.example.travelgallery.ui.viewmodel.MapViewModel
+import com.example.travelgallery.ui.uistate.PinDataState
 
+@ExperimentalMaterial3Api
 @Composable
 fun MainHost(
     navController: NavHostController,
     mapUiState: MapUiState,
+    pinDataState: PinDataState,
     enableAddMarkerMode: (Boolean) -> Unit,
+    inputTitleStr: (String) -> Unit,
+    inputSnippetStr: (String) -> Unit,
+    updateBottomSheetState: (Boolean) -> Unit,
+    saveLatLng: (Double, Double) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -48,7 +53,12 @@ fun MainHost(
             composable(route = Screen.Home.name) {
                 HomeScreen(
                     mapUiState = mapUiState,
+                    pinDataState = pinDataState,
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
+                    inputTitleStr = inputTitleStr,
+                    inputSnippetStr = inputSnippetStr,
+                    saveLatLng = saveLatLng,
+                    updateBottomSheetState = updateBottomSheetState,
                 )
             }
             composable(route = Screen.AllGallery.name) {
@@ -58,17 +68,21 @@ fun MainHost(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 private fun PreviewMainHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val mapViewModel: MapViewModel = viewModel()
-    val mapUiState = mapViewModel.uiState.collectAsState().value
 
     MainHost(
         navController = navController,
-        mapUiState = mapUiState,
+        mapUiState = MapUiState(),
+        pinDataState = PinDataState(),
         enableAddMarkerMode = {},
+        inputTitleStr = {},
+        inputSnippetStr = {},
+        updateBottomSheetState = {},
+        saveLatLng = { x, y -> },
         modifier = modifier,
     )
 }
