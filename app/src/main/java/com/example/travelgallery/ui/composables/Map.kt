@@ -48,7 +48,7 @@ fun Map(
         onMapClick = { latLng ->
             if (isAddMode) {
                 markers = markers + latLng
-                saveLatLng(latLng.longitude, latLng.latitude)
+                saveLatLng(latLng.latitude, latLng.longitude)
                 enableAddMarkerMode(false)
                 scope.launch(Dispatchers.Main) {
                     delay(500L)
