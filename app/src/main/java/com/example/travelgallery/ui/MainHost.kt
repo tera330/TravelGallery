@@ -17,6 +17,7 @@ import com.example.travelgallery.ui.data.bottomNavItems
 import com.example.travelgallery.ui.screens.AllGalleryScreen
 import com.example.travelgallery.ui.screens.HomeScreen
 import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataDetails
 import com.example.travelgallery.ui.uistate.PinDataState
 
 @ExperimentalMaterial3Api
@@ -26,10 +27,8 @@ fun MainHost(
     mapUiState: MapUiState,
     pinDataState: PinDataState,
     enableAddMarkerMode: (Boolean) -> Unit,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
+    onValueChange: (PinDataDetails) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
-    saveLatLng: (Double, Double) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -55,9 +54,7 @@ fun MainHost(
                     mapUiState = mapUiState,
                     pinDataState = pinDataState,
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
-                    inputTitleStr = inputTitleStr,
-                    inputSnippetStr = inputSnippetStr,
-                    saveLatLng = saveLatLng,
+                    onValueChange = onValueChange,
                     updateBottomSheetState = updateBottomSheetState,
                 )
             }
@@ -79,10 +76,8 @@ private fun PreviewMainHost(modifier: Modifier = Modifier) {
         mapUiState = MapUiState(),
         pinDataState = PinDataState(),
         enableAddMarkerMode = {},
-        inputTitleStr = {},
-        inputSnippetStr = {},
+        onValueChange = {},
         updateBottomSheetState = {},
-        saveLatLng = { x, y -> },
         modifier = modifier,
     )
 }

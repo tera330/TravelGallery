@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelgallery.ui.composables.Map
 import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataDetails
 import com.example.travelgallery.ui.uistate.PinDataState
 
 @ExperimentalMaterial3Api
@@ -27,10 +28,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     mapUiState: MapUiState,
     pinDataState: PinDataState,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
+    onValueChange: (PinDataDetails) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
-    saveLatLng: (Double, Double) -> Unit,
     enableAddMarkerMode: (Boolean) -> Unit,
 ) {
     Box(
@@ -42,9 +41,7 @@ fun HomeScreen(
             mapUiState = mapUiState,
             pinDataState = pinDataState,
             enableAddMarkerMode = enableAddMarkerMode,
-            inputTitleStr = inputTitleStr,
-            inputSnippetStr = inputSnippetStr,
-            saveLatLng = saveLatLng,
+            onValueChange = onValueChange,
             updateBottomSheetState = updateBottomSheetState,
         )
         Column(
@@ -76,10 +73,8 @@ private fun PreviewHomeScreen() {
     HomeScreen(
         mapUiState = MapUiState(),
         pinDataState = PinDataState(),
-        inputTitleStr = {},
-        inputSnippetStr = {},
+        onValueChange = {},
         updateBottomSheetState = {},
-        saveLatLng = { x, y -> },
         enableAddMarkerMode = {},
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.travelgallery.ui.uistate.MapUiState
+import com.example.travelgallery.ui.uistate.PinDataDetails
 import com.example.travelgallery.ui.uistate.PinDataState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -20,6 +21,7 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
@@ -29,9 +31,7 @@ fun Map(
     enableAddMarkerMode: (Boolean) -> Unit,
     mapUiState: MapUiState,
     pinDataState: PinDataState,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
-    saveLatLng: (Double, Double) -> Unit,
+    onValueChange: (PinDataDetails) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -48,7 +48,11 @@ fun Map(
         onMapClick = { latLng ->
             if (isAddMode) {
                 markers = markers + latLng
-                saveLatLng(latLng.latitude, latLng.longitude)
+                onValueChange(
+                    pinDataState.pinDataDetails.copy(
+                        latLng = LatLng(latLng.latitude, latLng.longitude),
+                    ),
+                )
                 enableAddMarkerMode(false)
                 scope.launch(Dispatchers.Main) {
                     delay(500L)
@@ -60,8 +64,8 @@ fun Map(
         markers.forEach { marker ->
             Marker(
                 state = MarkerState(position = marker),
-                title = pinDataState.inputTitleStr,
-                snippet = pinDataState.inputSnippetStr,
+                title = pinDataState.pinDataDetails.inputTitleStr,
+                snippet = pinDataState.pinDataDetails.inputSnippetStr,
                 draggable = false,
                 onClick = {
                     false
@@ -73,9 +77,8 @@ fun Map(
     if (mapUiState.bottomSheetState) {
         PinSettingBottomSheet(
             isBottomSheetVisible = true,
-            pinDataState = pinDataState,
-            inputSnippetStr = inputSnippetStr,
-            inputTitleStr = inputTitleStr,
+            pinDataDetails = pinDataState.pinDataDetails,
+            onValueChange = onValueChange,
         )
     }
 }
@@ -89,9 +92,7 @@ fun PreviewMap() {
         enableAddMarkerMode = {},
         mapUiState = MapUiState(),
         pinDataState = PinDataState(),
-        inputTitleStr = {},
-        inputSnippetStr = {},
-        saveLatLng = { x, y -> },
+        onValueChange = {},
         updateBottomSheetState = {},
     )
 }

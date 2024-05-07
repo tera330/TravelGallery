@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
             val mapViewModel: MapViewModel by viewModels()
             val pinDataViewModel: PinDataViewModel by viewModels()
             val mapUiState = mapViewModel.uiState.collectAsState().value
-            val pinDataState = pinDataViewModel.uiState.collectAsState().value
+            val pinDataState = pinDataViewModel.pinDataState
             val pinRepository: PinRepository by lazy {
                 PinRepository(PinDatabase.getDatabase(this).pinDao())
             }
@@ -43,9 +43,7 @@ class MainActivity : ComponentActivity() {
                         mapUiState = mapUiState,
                         pinDataState = pinDataState,
                         enableAddMarkerMode = { boolean -> mapViewModel.enableAddMarkerMode(boolean) },
-                        inputTitleStr = { str -> pinDataViewModel.updateInputTitleStr(str) },
-                        inputSnippetStr = { str -> pinDataViewModel.updateInputSnippetStr(str) },
-                        saveLatLng = { double1, double2 -> pinDataViewModel.saveLatLng(double1, double2) },
+                        onValueChange = { pinDataDetails -> pinDataViewModel.updatePinDataState(pinDataDetails) },
                         updateBottomSheetState = { boolean -> mapViewModel.updateBottomSheetState(boolean) },
                     )
                 }

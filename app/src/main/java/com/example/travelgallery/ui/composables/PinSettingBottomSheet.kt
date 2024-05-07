@@ -18,16 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.travelgallery.ui.uistate.PinDataState
+import com.example.travelgallery.ui.uistate.PinDataDetails
 
 @ExperimentalMaterial3Api
 @Composable
 fun PinSettingBottomSheet(
     modifier: Modifier = Modifier,
     isBottomSheetVisible: Boolean,
-    pinDataState: PinDataState,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
+    pinDataDetails: PinDataDetails,
+    onValueChange: (PinDataDetails) -> Unit,
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     if (isBottomSheetVisible) {
@@ -45,8 +44,8 @@ fun PinSettingBottomSheet(
                             modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                        value = pinDataState.inputTitleStr,
-                        onValueChange = { inputTitleStr(it) },
+                        value = pinDataDetails.inputTitleStr,
+                        onValueChange = { onValueChange(pinDataDetails.copy(inputTitleStr = it)) },
                         label = { Text("旅行先・地名") },
                     )
                     OutlinedTextField(
@@ -54,13 +53,13 @@ fun PinSettingBottomSheet(
                             modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                        value = pinDataState.inputSnippetStr,
-                        onValueChange = { inputSnippetStr(it) },
+                        value = pinDataDetails.inputSnippetStr,
+                        onValueChange = { onValueChange(pinDataDetails.copy(inputSnippetStr = it)) },
                         label = { Text("メモ") },
                     )
                     Button(
                         onClick = {
-                            Log.d("result", pinDataState.latLng.toString())
+                            Log.d("result", pinDataDetails.toString())
                         },
                         modifier =
                             Modifier
@@ -85,8 +84,7 @@ fun PinSettingBottomSheet(
 fun PreviewPinSettingBottomSheet() {
     PinSettingBottomSheet(
         isBottomSheetVisible = true,
-        pinDataState = PinDataState(),
-        inputTitleStr = {},
-        inputSnippetStr = {},
+        pinDataDetails = PinDataDetails(),
+        onValueChange = {},
     )
 }

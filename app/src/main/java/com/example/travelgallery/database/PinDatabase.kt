@@ -8,7 +8,7 @@ import com.example.travelgallery.database.dao.PinDao
 import com.example.travelgallery.database.entity.PinEntity
 
 @Database(entities = [PinEntity::class], version = 1, exportSchema = false)
-abstract class PinDatabase: RoomDatabase() {
+abstract class PinDatabase : RoomDatabase() {
     abstract fun pinDao(): PinDao
 
     companion object {
