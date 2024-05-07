@@ -31,6 +31,7 @@ fun Map(
     pinDataState: PinDataState,
     inputTitleStr: (String) -> Unit,
     inputSnippetStr: (String) -> Unit,
+    saveLatLng: (Double, Double) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -47,22 +48,21 @@ fun Map(
         onMapClick = { latLng ->
             if (isAddMode) {
                 markers = markers + latLng
-
+                saveLatLng(latLng.longitude, latLng.latitude)
                 enableAddMarkerMode(false)
                 scope.launch(Dispatchers.Main) {
                     delay(500L)
                     updateBottomSheetState(true)
                 }
-            } else {
             }
         },
     ) {
         markers.forEach { marker ->
             Marker(
                 state = MarkerState(position = marker),
-                title = "aa",
-                snippet = "aa",
-                draggable = true,
+                title = pinDataState.inputTitleStr,
+                snippet = pinDataState.inputSnippetStr,
+                draggable = false,
                 onClick = {
                     false
                 },
@@ -91,6 +91,7 @@ fun PreviewMap() {
         pinDataState = PinDataState(),
         inputTitleStr = {},
         inputSnippetStr = {},
+        saveLatLng = { x, y -> },
         updateBottomSheetState = {},
     )
 }

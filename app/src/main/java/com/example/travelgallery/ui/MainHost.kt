@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,7 +18,6 @@ import com.example.travelgallery.ui.screens.AllGalleryScreen
 import com.example.travelgallery.ui.screens.HomeScreen
 import com.example.travelgallery.ui.uistate.MapUiState
 import com.example.travelgallery.ui.uistate.PinDataState
-import com.example.travelgallery.ui.viewmodel.MapViewModel
 
 @ExperimentalMaterial3Api
 @Composable
@@ -32,6 +29,7 @@ fun MainHost(
     inputTitleStr: (String) -> Unit,
     inputSnippetStr: (String) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
+    saveLatLng: (Double, Double) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -59,6 +57,7 @@ fun MainHost(
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
                     inputTitleStr = inputTitleStr,
                     inputSnippetStr = inputSnippetStr,
+                    saveLatLng = saveLatLng,
                     updateBottomSheetState = updateBottomSheetState,
                 )
             }
@@ -83,6 +82,7 @@ private fun PreviewMainHost(modifier: Modifier = Modifier) {
         inputTitleStr = {},
         inputSnippetStr = {},
         updateBottomSheetState = {},
+        saveLatLng = { x, y -> },
         modifier = modifier,
     )
 }

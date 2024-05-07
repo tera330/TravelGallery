@@ -30,6 +30,7 @@ fun HomeScreen(
     inputTitleStr: (String) -> Unit,
     inputSnippetStr: (String) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
+    saveLatLng: (Double, Double) -> Unit,
     enableAddMarkerMode: (Boolean) -> Unit,
 ) {
     Box(
@@ -43,6 +44,7 @@ fun HomeScreen(
             enableAddMarkerMode = enableAddMarkerMode,
             inputTitleStr = inputTitleStr,
             inputSnippetStr = inputSnippetStr,
+            saveLatLng = saveLatLng,
             updateBottomSheetState = updateBottomSheetState,
         )
         Column(
@@ -77,6 +79,7 @@ private fun PreviewHomeScreen() {
         inputTitleStr = {},
         inputSnippetStr = {},
         updateBottomSheetState = {},
+        saveLatLng = { x, y -> },
         enableAddMarkerMode = {},
     )
 }

@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
             val mapUiState = mapViewModel.uiState.collectAsState().value
             val pinDataState = pinDataViewModel.uiState.collectAsState().value
 
-
             TravelGalleryTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -41,6 +40,7 @@ class MainActivity : ComponentActivity() {
                         enableAddMarkerMode = { boolean -> mapViewModel.enableAddMarkerMode(boolean) },
                         inputTitleStr = { str -> pinDataViewModel.updateInputTitleStr(str) },
                         inputSnippetStr = { str -> pinDataViewModel.updateInputSnippetStr(str) },
+                        saveLatLng = { double1, double2 -> pinDataViewModel.saveLatLng(double1, double2) },
                         updateBottomSheetState = { boolean -> mapViewModel.updateBottomSheetState(boolean) },
                     )
                 }
