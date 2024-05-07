@@ -11,6 +11,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.example.travelgallery.database.PinDatabase
+import com.example.travelgallery.database.repository.PinRepository
 import com.example.travelgallery.ui.MainHost
 import com.example.travelgallery.ui.theme.TravelGalleryTheme
 import com.example.travelgallery.ui.viewmodel.MapViewModel
@@ -26,6 +28,9 @@ class MainActivity : ComponentActivity() {
             val pinDataViewModel: PinDataViewModel by viewModels()
             val mapUiState = mapViewModel.uiState.collectAsState().value
             val pinDataState = pinDataViewModel.uiState.collectAsState().value
+            val pinRepository: PinRepository by lazy {
+                PinRepository(PinDatabase.getDatabase(this).pinDao())
+            }
 
             TravelGalleryTheme {
                 // A surface container using the 'background' color from the theme
