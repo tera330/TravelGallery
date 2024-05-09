@@ -29,6 +29,7 @@ fun MainHost(
     enableAddMarkerMode: (Boolean) -> Unit,
     onValueChange: (PinDataDetails) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
+    insertPinDat: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -56,6 +57,7 @@ fun MainHost(
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
                     onValueChange = onValueChange,
                     updateBottomSheetState = updateBottomSheetState,
+                    insertPinData = insertPinDat
                 )
             }
             composable(route = Screen.AllGallery.name) {
@@ -78,6 +80,7 @@ private fun PreviewMainHost(modifier: Modifier = Modifier) {
         enableAddMarkerMode = {},
         onValueChange = {},
         updateBottomSheetState = {},
+        insertPinDat = {},
         modifier = modifier,
     )
 }

@@ -31,6 +31,7 @@ fun HomeScreen(
     onValueChange: (PinDataDetails) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
     enableAddMarkerMode: (Boolean) -> Unit,
+    insertPinData: () -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -43,6 +44,7 @@ fun HomeScreen(
             enableAddMarkerMode = enableAddMarkerMode,
             onValueChange = onValueChange,
             updateBottomSheetState = updateBottomSheetState,
+            insertPinData = insertPinData
         )
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -76,5 +78,6 @@ private fun PreviewHomeScreen() {
         onValueChange = {},
         updateBottomSheetState = {},
         enableAddMarkerMode = {},
+        insertPinData = {}
     )
 }

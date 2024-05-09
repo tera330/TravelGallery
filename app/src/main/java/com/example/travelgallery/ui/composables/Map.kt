@@ -33,6 +33,7 @@ fun Map(
     pinDataState: PinDataState,
     onValueChange: (PinDataDetails) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
+    insertPinData: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val tokyo = LatLng(35.6894, 139.6917)
@@ -79,6 +80,7 @@ fun Map(
             isBottomSheetVisible = true,
             pinDataDetails = pinDataState.pinDataDetails,
             onValueChange = onValueChange,
+            insertPinData = insertPinData
         )
     }
 }
@@ -94,5 +96,6 @@ fun PreviewMap() {
         pinDataState = PinDataState(),
         onValueChange = {},
         updateBottomSheetState = {},
+        insertPinData = {}
     )
 }

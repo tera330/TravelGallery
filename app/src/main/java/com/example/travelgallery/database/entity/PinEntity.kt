@@ -9,6 +9,6 @@ data class PinEntity(
     val id: Int = 0,
     val title: String,
     val snippet: String,
-    val latitude: String,
-    val longitude: String,
+    val latitude: Double,
+    val longitude: Double,
 )

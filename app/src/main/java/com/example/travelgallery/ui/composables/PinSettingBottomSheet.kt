@@ -27,6 +27,7 @@ fun PinSettingBottomSheet(
     isBottomSheetVisible: Boolean,
     pinDataDetails: PinDataDetails,
     onValueChange: (PinDataDetails) -> Unit,
+    insertPinData: () -> Unit
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     if (isBottomSheetVisible) {
@@ -59,7 +60,7 @@ fun PinSettingBottomSheet(
                     )
                     Button(
                         onClick = {
-                            Log.d("result", pinDataDetails.toString())
+                                 insertPinData()
                         },
                         modifier =
                             Modifier
@@ -86,5 +87,6 @@ fun PreviewPinSettingBottomSheet() {
         isBottomSheetVisible = true,
         pinDataDetails = PinDataDetails(),
         onValueChange = {},
+        insertPinData = {}
     )
 }
