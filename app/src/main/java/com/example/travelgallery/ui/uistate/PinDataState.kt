@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 
 data class PinDataState(
     var pinDataDetails: PinDataDetails = PinDataDetails(),
-    val isEntryValid: Boolean = false,
+    var currentPinId: Long = 1,
 )
 
 data class PinDataDetails(

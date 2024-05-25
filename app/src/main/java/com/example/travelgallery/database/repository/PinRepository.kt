@@ -7,5 +7,9 @@ import kotlinx.coroutines.flow.Flow
 class PinRepository(private val pinDao: PinDao) {
     suspend fun insertPinData(pin: PinEntity) = pinDao.insert(pin)
 
+    fun getPinStreamById(id: Long) = pinDao.getPInStream(id)
+
     fun getAllPinStream(): Flow<List<PinEntity>> = pinDao.getAllPins()
+
+    suspend fun updatePinData(pinEntity: PinEntity) = pinDao.update(pinEntity)
 }

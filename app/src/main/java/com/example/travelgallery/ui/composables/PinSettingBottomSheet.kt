@@ -1,6 +1,5 @@
 package com.example.travelgallery.ui.composables
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,11 +13,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelgallery.ui.uistate.PinDataDetails
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
@@ -27,9 +30,12 @@ fun PinSettingBottomSheet(
     isBottomSheetVisible: Boolean,
     pinDataDetails: PinDataDetails,
     onValueChange: (PinDataDetails) -> Unit,
-    insertPinData: () -> Unit
+    updatePinData: () -> Unit,
+    updateBottomSheetState: (Boolean) -> Unit,
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
+
     if (isBottomSheetVisible) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -60,7 +66,11 @@ fun PinSettingBottomSheet(
                     )
                     Button(
                         onClick = {
-                                 insertPinData()
+                            updatePinData()
+                            scope.launch(Dispatchers.Main) {
+                                delay(500L)
+                                updateBottomSheetState(false)
+                            }
                         },
                         modifier =
                             Modifier
@@ -87,6 +97,7 @@ fun PreviewPinSettingBottomSheet() {
         isBottomSheetVisible = true,
         pinDataDetails = PinDataDetails(),
         onValueChange = {},
-        insertPinData = {}
+        updatePinData = {},
+        updateBottomSheetState = {},
     )
 }

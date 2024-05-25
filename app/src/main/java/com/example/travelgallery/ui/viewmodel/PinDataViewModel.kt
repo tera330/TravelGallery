@@ -16,33 +16,48 @@ class PinDataViewModel(private val pinRepository: PinRepository) : ViewModel() {
     var pinDataState by mutableStateOf(PinDataState())
         private set
 
+    private fun updateCurrentPinData(currentId: Long) {
+        pinDataState =
+            pinDataState.copy(
+                currentPinId = currentId,
+            )
+    }
+
     fun updatePinDataState(pinDataDetails: PinDataDetails) {
         pinDataState =
             PinDataState(
                 pinDataDetails = pinDataDetails,
-                isEntryValid = validateInput(pinDataDetails)
             )
     }
 
-    private fun validateInput(pinDataDetails: PinDataDetails = pinDataState.pinDataDetails): Boolean {
-        return with(pinDataDetails) {
-            inputTitleStr.isNotBlank() && inputSnippetStr.isNotBlank()
-        }
-    }
-
-    suspend fun insertPinData() {
-        if (validateInput()) {
+    suspend fun insertPinData(): Long {
+        var id: Long = 0
+        val job =
             viewModelScope.launch {
-                pinRepository.insertPinData(pinDataState.pinDataDetails.toPinEntity())
+                id = pinRepository.insertPinData(pinDataState.pinDataDetails.toPinEntity())
             }
-        }
+        job.join()
+        updateCurrentPinData(id)
+        return id
     }
+}
 
-    private fun PinDataDetails.toPinEntity(): PinEntity = PinEntity(
+fun PinDataDetails.toPinEntity(): PinEntity =
+    PinEntity(
         id = id,
         title = inputTitleStr,
         snippet = inputSnippetStr,
         latitude = latLng.latitude,
-        longitude = latLng.longitude
+        longitude = latLng.longitude,
     )
-}
+
+fun PinEntity.toPinDataState(): PinDataState =
+    PinDataState(
+        pinDataDetails =
+            PinDataDetails(
+                id = id,
+                inputTitleStr = title,
+                inputSnippetStr = snippet,
+                latLng = LatLng(latitude, longitude),
+            ),
+    )
