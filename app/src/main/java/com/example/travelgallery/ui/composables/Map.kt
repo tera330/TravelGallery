@@ -36,6 +36,7 @@ fun Map(
     mapUiState: MapUiState,
     updateBottomSheetState: (Boolean) -> Unit,
     homeUiState: HomeUiState,
+    navigateGalleryScreen: (Int) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val tokyo = LatLng(35.6894, 139.6917)
@@ -87,6 +88,7 @@ fun Map(
                 snippet = marker.snippet,
                 draggable = false,
                 onClick = {
+                    navigateGalleryScreen(marker.id)
                     false
                 },
             )
@@ -118,5 +120,6 @@ fun PreviewMap() {
         mapUiState = MapUiState(),
         updateBottomSheetState = {},
         homeUiState = HomeUiState(),
+        navigateGalleryScreen = {},
     )
 }
