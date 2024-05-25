@@ -1,41 +1,63 @@
 package com.example.travelgallery.ui.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.travelgallery.database.entity.PinEntity
+import com.example.travelgallery.database.repository.PinRepository
+import com.example.travelgallery.ui.uistate.PinDataDetails
 import com.example.travelgallery.ui.uistate.PinDataState
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class PinDataViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(PinDataState())
-    val uiState: StateFlow<PinDataState> = _uiState.asStateFlow()
+class PinDataViewModel(private val pinRepository: PinRepository) : ViewModel() {
+    var pinDataState by mutableStateOf(PinDataState())
+        private set
 
-    fun updateInputTitleStr(title: String) {
-        _uiState.update {
-            it.copy(
-                inputTitleStr = title,
+    private fun updateCurrentPinData(currentId: Long) {
+        pinDataState =
+            pinDataState.copy(
+                currentPinId = currentId,
             )
-        }
     }
 
-    fun updateInputSnippetStr(snippet: String) {
-        _uiState.update {
-            it.copy(
-                inputSnippetStr = snippet,
+    fun updatePinDataState(pinDataDetails: PinDataDetails) {
+        pinDataState =
+            PinDataState(
+                pinDataDetails = pinDataDetails,
             )
-        }
     }
 
-    fun saveLatLng(
-        latitude: Double,
-        longitude: Double,
-    ) {
-        _uiState.update {
-            it.copy(
-                latLng = LatLng(latitude, longitude),
-            )
-        }
+    suspend fun insertPinData(): Long {
+        var id: Long = 0
+        val job =
+            viewModelScope.launch {
+                id = pinRepository.insertPinData(pinDataState.pinDataDetails.toPinEntity())
+            }
+        job.join()
+        updateCurrentPinData(id)
+        return id
     }
 }
+
+fun PinDataDetails.toPinEntity(): PinEntity =
+    PinEntity(
+        id = id,
+        title = inputTitleStr,
+        snippet = inputSnippetStr,
+        latitude = latLng.latitude,
+        longitude = latLng.longitude,
+    )
+
+fun PinEntity.toPinDataState(): PinDataState =
+    PinDataState(
+        pinDataDetails =
+            PinDataDetails(
+                id = id,
+                inputTitleStr = title,
+                inputSnippetStr = snippet,
+                latLng = LatLng(latitude, longitude),
+            ),
+    )

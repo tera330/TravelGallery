@@ -9,9 +9,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.travelgallery.database.PinDatabase
+import com.example.travelgallery.database.repository.PinRepository
+import com.example.travelgallery.ui.uistate.HomeUiState
 import com.example.travelgallery.ui.uistate.MapUiState
-import com.example.travelgallery.ui.uistate.PinDataState
+import com.example.travelgallery.ui.viewmodel.PinDataViewModel
+import com.example.travelgallery.ui.viewmodel.PinEditViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -28,11 +34,8 @@ fun Map(
     isAddMode: Boolean,
     enableAddMarkerMode: (Boolean) -> Unit,
     mapUiState: MapUiState,
-    pinDataState: PinDataState,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
-    saveLatLng: (Double, Double) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
+    homeUiState: HomeUiState,
 ) {
     val scope = rememberCoroutineScope()
     val tokyo = LatLng(35.6894, 139.6917)
@@ -42,26 +45,46 @@ fun Map(
         }
     var markers by remember { mutableStateOf(listOf<LatLng>()) }
 
+    val pinRepository = PinRepository(PinDatabase.getDatabase(LocalContext.current).pinDao())
+    val pinDataViewModel: PinDataViewModel =
+        viewModel {
+            PinDataViewModel(pinRepository)
+        }
+    val insertPinDataState = pinDataViewModel.pinDataState
+
+    val pinEditViewModel: PinEditViewModel =
+        viewModel {
+            PinEditViewModel(pinRepository)
+        }
+    val getPinDataState = pinEditViewModel.pinDataState
+
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
         onMapClick = { latLng ->
-            if (isAddMode) {
-                markers = markers + latLng
-                saveLatLng(latLng.latitude, latLng.longitude)
-                enableAddMarkerMode(false)
-                scope.launch(Dispatchers.Main) {
-                    delay(500L)
-                    updateBottomSheetState(true)
+            scope.launch {
+                if (isAddMode) {
+                    markers = markers + latLng
+                    pinDataViewModel.updatePinDataState(
+                        insertPinDataState.pinDataDetails.copy(
+                            latLng = LatLng(latLng.latitude, latLng.longitude),
+                        ),
+                    )
+                    pinEditViewModel.updatePin(pinDataViewModel.insertPinData())
+                    enableAddMarkerMode(false)
                 }
+            }
+            scope.launch(Dispatchers.Main) {
+                delay(500L)
+                updateBottomSheetState(true)
             }
         },
     ) {
-        markers.forEach { marker ->
+        homeUiState.taskList.forEach { marker ->
             Marker(
-                state = MarkerState(position = marker),
-                title = pinDataState.inputTitleStr,
-                snippet = pinDataState.inputSnippetStr,
+                state = MarkerState(position = LatLng(marker.latitude, marker.longitude)),
+                title = marker.title,
+                snippet = marker.snippet,
                 draggable = false,
                 onClick = {
                     false
@@ -73,9 +96,14 @@ fun Map(
     if (mapUiState.bottomSheetState) {
         PinSettingBottomSheet(
             isBottomSheetVisible = true,
-            pinDataState = pinDataState,
-            inputSnippetStr = inputSnippetStr,
-            inputTitleStr = inputTitleStr,
+            pinDataDetails = getPinDataState.pinDataDetails,
+            updatePinData = {
+                scope.launch {
+                    pinEditViewModel.updatePinData()
+                }
+            },
+            onValueChange = { pinDataDetails -> pinEditViewModel.updatePinDataState(pinDataDetails) },
+            updateBottomSheetState = updateBottomSheetState,
         )
     }
 }
@@ -88,10 +116,7 @@ fun PreviewMap() {
         isAddMode = true,
         enableAddMarkerMode = {},
         mapUiState = MapUiState(),
-        pinDataState = PinDataState(),
-        inputTitleStr = {},
-        inputSnippetStr = {},
-        saveLatLng = { x, y -> },
         updateBottomSheetState = {},
+        homeUiState = HomeUiState(),
     )
 }

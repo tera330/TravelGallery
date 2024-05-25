@@ -18,20 +18,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelgallery.ui.composables.Map
+import com.example.travelgallery.ui.uistate.HomeUiState
 import com.example.travelgallery.ui.uistate.MapUiState
-import com.example.travelgallery.ui.uistate.PinDataState
 
 @ExperimentalMaterial3Api
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     mapUiState: MapUiState,
-    pinDataState: PinDataState,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
     updateBottomSheetState: (Boolean) -> Unit,
-    saveLatLng: (Double, Double) -> Unit,
     enableAddMarkerMode: (Boolean) -> Unit,
+    homeUiState: HomeUiState,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -40,12 +37,9 @@ fun HomeScreen(
         Map(
             isAddMode = mapUiState.isPinAddMode,
             mapUiState = mapUiState,
-            pinDataState = pinDataState,
             enableAddMarkerMode = enableAddMarkerMode,
-            inputTitleStr = inputTitleStr,
-            inputSnippetStr = inputSnippetStr,
-            saveLatLng = saveLatLng,
             updateBottomSheetState = updateBottomSheetState,
+            homeUiState = homeUiState,
         )
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -75,11 +69,8 @@ fun HomeScreen(
 private fun PreviewHomeScreen() {
     HomeScreen(
         mapUiState = MapUiState(),
-        pinDataState = PinDataState(),
-        inputTitleStr = {},
-        inputSnippetStr = {},
         updateBottomSheetState = {},
-        saveLatLng = { x, y -> },
         enableAddMarkerMode = {},
+        homeUiState = HomeUiState(),
     )
 }

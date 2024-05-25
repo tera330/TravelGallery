@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+    id("com.google.devtools.ksp") version "1.9.21-1.0.16"
     alias(libs.plugins.secretsGradlePlugin)
 }
 
@@ -68,6 +69,9 @@ dependencies {
     implementation(libs.android.maps.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

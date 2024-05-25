@@ -1,6 +1,5 @@
 package com.example.travelgallery.ui.composables
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,22 +13,29 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.travelgallery.ui.uistate.PinDataState
+import com.example.travelgallery.ui.uistate.PinDataDetails
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
 fun PinSettingBottomSheet(
     modifier: Modifier = Modifier,
     isBottomSheetVisible: Boolean,
-    pinDataState: PinDataState,
-    inputTitleStr: (String) -> Unit,
-    inputSnippetStr: (String) -> Unit,
+    pinDataDetails: PinDataDetails,
+    onValueChange: (PinDataDetails) -> Unit,
+    updatePinData: () -> Unit,
+    updateBottomSheetState: (Boolean) -> Unit,
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
+
     if (isBottomSheetVisible) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -45,8 +51,8 @@ fun PinSettingBottomSheet(
                             modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                        value = pinDataState.inputTitleStr,
-                        onValueChange = { inputTitleStr(it) },
+                        value = pinDataDetails.inputTitleStr,
+                        onValueChange = { onValueChange(pinDataDetails.copy(inputTitleStr = it)) },
                         label = { Text("旅行先・地名") },
                     )
                     OutlinedTextField(
@@ -54,13 +60,17 @@ fun PinSettingBottomSheet(
                             modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                        value = pinDataState.inputSnippetStr,
-                        onValueChange = { inputSnippetStr(it) },
+                        value = pinDataDetails.inputSnippetStr,
+                        onValueChange = { onValueChange(pinDataDetails.copy(inputSnippetStr = it)) },
                         label = { Text("メモ") },
                     )
                     Button(
                         onClick = {
-                            Log.d("result", pinDataState.latLng.toString())
+                            updatePinData()
+                            scope.launch(Dispatchers.Main) {
+                                delay(500L)
+                                updateBottomSheetState(false)
+                            }
                         },
                         modifier =
                             Modifier
@@ -85,8 +95,9 @@ fun PinSettingBottomSheet(
 fun PreviewPinSettingBottomSheet() {
     PinSettingBottomSheet(
         isBottomSheetVisible = true,
-        pinDataState = PinDataState(),
-        inputTitleStr = {},
-        inputSnippetStr = {},
+        pinDataDetails = PinDataDetails(),
+        onValueChange = {},
+        updatePinData = {},
+        updateBottomSheetState = {},
     )
 }
