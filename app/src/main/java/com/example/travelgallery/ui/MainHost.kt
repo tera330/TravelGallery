@@ -39,7 +39,7 @@ fun MainHost(
     Scaffold(
         modifier = modifier,
         bottomBar = {
-            if (backStackEntry?.destination?.route.toString() != "GalleryScreen/{galleryId}") {
+            if (backStackEntry?.destination?.route.toString() != "GalleryScreen/{galleryId}/{snippet}") {
                 BottomNavigationBar(
                     navController = navController,
                     tabItems = bottomNavItems,
@@ -62,8 +62,8 @@ fun MainHost(
                     enableAddMarkerMode = { boolean -> enableAddMarkerMode(boolean) },
                     updateBottomSheetState = updateBottomSheetState,
                     homeUiState = homeUiState,
-                    navigateGalleryScreen = { galleryId ->
-                        navController.navigate("${Screen.GalleryScreen.name}/$galleryId")
+                    navigateGalleryScreen = { galleryId, snippet ->
+                        navController.navigate("${Screen.GalleryScreen.name}/$galleryId/$snippet")
                     },
                 )
             }
@@ -71,12 +71,20 @@ fun MainHost(
                 AllGalleryScreen()
             }
             composable(
-                route = "${Screen.GalleryScreen.name}/{galleryId}",
-                arguments = listOf(navArgument("galleryId") { type = NavType.IntType }),
+                route = "${Screen.GalleryScreen.name}/{galleryId}/{snippet}",
+                arguments =
+                    listOf(
+                        navArgument("galleryId") { type = NavType.IntType },
+                        navArgument("snippet") { type = NavType.StringType },
+                    ),
             ) { backStackEntry ->
                 val galleryId = backStackEntry.arguments?.getInt("galleryId") ?: 0
+                val snippet = backStackEntry.arguments?.getString("snippet") ?: ""
                 GalleryScreen(
-                    galleryId,
+                    galleryId = galleryId,
+                    snippet = snippet,
+                    canNavigateBack = navController.previousBackStackEntry != null,
+                    navigateUp = { navController.navigateUp() },
                 )
             }
         }

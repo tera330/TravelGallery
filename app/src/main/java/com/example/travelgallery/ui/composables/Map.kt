@@ -36,7 +36,7 @@ fun Map(
     mapUiState: MapUiState,
     updateBottomSheetState: (Boolean) -> Unit,
     homeUiState: HomeUiState,
-    navigateGalleryScreen: (Int) -> Unit,
+    navigateGalleryScreen: (Int, String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val tokyo = LatLng(35.6894, 139.6917)
@@ -82,13 +82,19 @@ fun Map(
         },
     ) {
         homeUiState.taskList.forEach { marker ->
+            val markerState = MarkerState(position = LatLng(marker.latitude, marker.longitude))
+
+            // todo 情報ウィンドウの表示
             Marker(
-                state = MarkerState(position = LatLng(marker.latitude, marker.longitude)),
+                state = markerState,
                 title = marker.title,
                 snippet = marker.snippet,
                 draggable = false,
                 onClick = {
-                    navigateGalleryScreen(marker.id)
+                    navigateGalleryScreen(
+                        marker.id,
+                        marker.snippet,
+                    )
                     false
                 },
             )
@@ -120,6 +126,6 @@ fun PreviewMap() {
         mapUiState = MapUiState(),
         updateBottomSheetState = {},
         homeUiState = HomeUiState(),
-        navigateGalleryScreen = {},
+        navigateGalleryScreen = { a, b -> },
     )
 }
