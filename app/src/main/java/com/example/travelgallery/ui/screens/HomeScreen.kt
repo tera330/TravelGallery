@@ -29,6 +29,7 @@ fun HomeScreen(
     updateBottomSheetState: (Boolean) -> Unit,
     enableAddMarkerMode: (Boolean) -> Unit,
     homeUiState: HomeUiState,
+    navigateGalleryScreen: (Int, String) -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -40,6 +41,7 @@ fun HomeScreen(
             enableAddMarkerMode = enableAddMarkerMode,
             updateBottomSheetState = updateBottomSheetState,
             homeUiState = homeUiState,
+            navigateGalleryScreen = navigateGalleryScreen,
         )
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -72,5 +74,6 @@ private fun PreviewHomeScreen() {
         updateBottomSheetState = {},
         enableAddMarkerMode = {},
         homeUiState = HomeUiState(),
+        navigateGalleryScreen = { a, b -> },
     )
 }
